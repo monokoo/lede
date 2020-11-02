@@ -35,13 +35,12 @@ MAKE_FLAGS += \
 	-C $(PKG_BUILD_DIR)
 
 define Package/vlmcsd/install
-	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_DIR) $(1)/usr/bin $(1)/etc/init.d $(1)/usr/share/vlmcsd $(1)/etc/config
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/vlmcsd $(1)/usr/bin/vlmcsd
-	#$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/vlmcs $(1)/usr/bin/vlmcs
-	$(INSTALL_DIR) $(1)/etc
-	$(INSTALL_BIN) ./files/vlmcsd.ini $(1)/etc/vlmcsd.ini
-	#$(INSTALL_DIR) $(1)/etc/init.d
-	#$(INSTALL_BIN) ./files/vlmcsd.init $(1)/etc/init.d/vlmcsd
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/vlmcs $(1)/usr/bin/vlmcs
+	$(INSTALL_BIN) ./files/vlmcsd.init $(1)/etc/init.d/vlmcsd
+	$(INSTALL_DATA) ./files/vlmcsd.ini $(1)/usr/share/vlmcsd/
+	$(INSTALL_DATA) ./files/vlmcsd.config $(1)/etc/config/vlmcsd
 endef
 
 $(eval $(call BuildPackage,vlmcsd))
