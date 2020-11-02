@@ -1,7 +1,7 @@
 local o=require"luci.dispatcher"
 local e=require("luci.model.ipkg")
 local s=require"nixio.fs"
-local e=luci.model.uci.cursor()
+local UCI=(require "luci.model.uci").cursor()
 local i="frp"
 local a,t,e
 local n={}
@@ -15,14 +15,22 @@ t:tab("other",translate("Other Settings"))
 t:tab("log",translate("Client Log"))
 e=t:taboption("base",Flag, "enabled", translate("Enabled"))
 e.rmempty=false
-e=t:taboption("base",Value, "server_addr", translate("Server"))
+e=t:taboption("base",Value, "server_addr", translate("Server Address"))
 e.optional=false
 e.rmempty=false
-e=t:taboption("base",Value, "server_port", translate("Port"))
+e=t:taboption("base",Value, "server_port", translate("Server Port"))
 e.datatype = "port"
 e.optional=false
 e.rmempty=false
-e=t:taboption("base",Value, "token", translate("Token"), translate("Time duration between server of frpc and frps mustn't exceed 15 minutes."))
+local sys_hostname=luci.sys.hostname()
+e=t:taboption("base",Value, "proxy_user", translate("Frpc Proxy Name"))
+e.default = sys_hostname
+e.optional=false
+e:value(sys_hostname)
+e=t:taboption("base",Flag, "tcp_mux", translate("TCP Stream Multiplexing"), translate("Default is Ture. <font color=\"red\">This feature in frps.ini and frpc.ini must be the same.</font>"))
+e.default = "1"
+e.rmempty=false
+e=t:taboption("base",Value, "privilege_token", translate("Token"), translate("Time duration between server of frpc and frps mustn't exceed 15 minutes."))
 e.optional=false
 e.password=true
 e.rmempty=false
@@ -32,16 +40,46 @@ e.rmempty=false
 e=t:taboption("base",Value, "vhost_https_port", translate("Vhost HTTPS Port"))
 e.datatype = "port"
 e.rmempty=false
-e=t:taboption("other",Flag, "login_fail_exit", translate("Exit program when first login failed"),translate("decide if exit program when first login failed, otherwise continuous relogin to frps."))
-e.default = "1"
+e=t:taboption("base",Value,"time",translate("Service registration interval"),translate("0 means disable this feature, unit: min"))
+e.datatype="range(0,59)"
+e.default=30
 e.rmempty=false
-e=t:taboption("other",Flag, "tcp_mux", translate("TCP Stream Multiplexing"), translate("Default is Ture. This feature in frps.ini and frpc.ini must be same."))
+e=t:taboption("other",Flag, "login_fail_exit", translate("Exit program when first login failed"),translate("decide if exit program when first login failed, otherwise continuous relogin to frps."))
 e.default = "1"
 e.rmempty=false
 e=t:taboption("other",ListValue, "protocol", translate("Protocol Type"),translate("Frp support kcp protocol since v0.12.0"))
 e.default = "tcp"
 e:value("tcp",translate("TCP Protocol"))
 e:value("kcp",translate("KCP Protocol"))
+e:value("websocket",translate("WebSocket Protocol"))
+e=t:taboption("other",Value, "dns_server", translate("DNS Server"), translate("Specify a dns server, so frpc will use this instead of default one"))
+e.datatype = "ip4addr"
+e.placeholder = "8.8.8.8"
+e.optional=false
+local lan_ip=UCI:get("network","lan","ipaddr")
+e=t:taboption("other",ListValue, "admin_addr", translate("Admin Address"))
+e.datatype = "ip4addr"
+e.default = "127.0.0.1"
+e.optional=false
+e.rmempty=false
+e:value("127.0.0.1")
+e:value(lan_ip)
+e=t:taboption("other",Value, "admin_port", translate("Admin Port"))
+e.datatype = "port"
+e.default = "7400"
+e.optional=false
+e.rmempty=false
+e=t:taboption("other",Flag, "enable_admin_user", translate("Enable Admin User"))
+e.default = "0"
+e.rmempty=false
+e=t:taboption("other",Value, "admin_user", translate("Admin UserName"))
+e.default = "admin"
+e.optional=false
+e:depends("enable_admin_user",1)
+e=t:taboption("other",Value, "admin_pwd", translate("Admin Password"))
+e.default = "admin"
+e.optional=false
+e:depends("enable_admin_user",1)
 e=t:taboption("other",Flag, "enable_http_proxy", translate("Connect frps by HTTP PROXY"), translate("frpc can connect frps using HTTP PROXY"))
 e.default = "0"
 e.rmempty=false
@@ -58,10 +96,6 @@ e.datatype="uinteger"
 e.default = "1"
 e:depends("enable_cpool",1)
 e.optional=false
-e=t:taboption("base",Value,"time",translate("Service registration interval"),translate("0 means disable this feature, unit: min"))
-e.datatype="range(0,59)"
-e.default=30
-e.rmempty=false
 e=t:taboption("other",ListValue, "log_level", translate("Log Level"))
 e.default = "warn"
 e:value("trace",translate("Trace"))
