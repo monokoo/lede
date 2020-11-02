@@ -513,6 +513,9 @@ header > .container > .brand {
 .main > .main-left > .nav > .slide > .menu[data-title= 网络 ]:before{
 	content: "\e908";
 }
+.main > .main-left > .nav > .slide > .menu[data-title= Control ]:before{
+	content: "\e023";
+}
 .main > .main-left > .nav > .slide > .menu[data-title= 带宽监控 ]:before{
 	content: "\e90d";
 }
