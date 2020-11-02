@@ -3,8 +3,8 @@ function index()
 if not nixio.fs.access("/etc/config/timewol")then
 return
 end
-entry({"admin","Control","timewol"},cbi("timewol"),_("定时唤醒"),95).dependent=true
-entry({"admin","Control","timewol","status"},call("status")).leaf=true
+entry({"admin","control","timewol"},cbi("timewol"),_("定时唤醒"),95).dependent=true
+entry({"admin","control","timewol","status"},call("status")).leaf=true
 end
 function status()
 local e={}
