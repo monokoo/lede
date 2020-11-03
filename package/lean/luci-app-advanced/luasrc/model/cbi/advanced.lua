@@ -171,27 +171,6 @@ e.remove("/tmp/AdGuardHome")
 end
 end
 end
-if nixio.fs.access("/etc/pcap-dnsproxy/Config.conf")then
-s:tab("pcapconf",translate("配置pcap-dnsproxy"),translate("本页是配置/etc/pcap-dnsproxy/Config.conf的文档内容。应用保存后自动重启生效"))
-conf=s:taboption("pcapconf",Value,"pcapconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
-conf.template="cbi/tvalue"
-conf.rows=30
-conf.wrap="off"
-conf.cfgvalue=function(t,t)
-return e.readfile("/etc/pcap-dnsproxy/Config.conf")or""
-end
-conf.write=function(a,a,t)
-if t then
-t=t:gsub("\r\n?","\n")
-e.writefile("/tmp/Config.conf",t)
-if(luci.sys.call("cmp -s /tmp/Config.conf /etc/pcap-dnsproxy/Config.conf")==1)then
-e.writefile("/etc/pcap-dnsproxy/Config.conf",t)
-luci.sys.call("/etc/init.d/pcap-dnsproxy restart >/dev/null")
-end
-e.remove("/tmp/Config.conf")
-end
-end
-end
 if nixio.fs.access("/etc/wifidog.conf")then
 s:tab("wifidogconf",translate("配置wifidog"),translate("本页是配置/etc/wifidog.conf的文档内容。应用保存后自动重启生效"))
 conf=s:taboption("wifidogconf",Value,"wifidogconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
