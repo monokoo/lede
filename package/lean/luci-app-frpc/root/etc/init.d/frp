@@ -179,8 +179,7 @@ download_binary(){
 	latest_version=`curl -S  https://github.com/fatedier/frp/releases/latest | awk -F"/tag/v" '{print $2}' | awk -F"\">" '{print $1}'`
 	echo_date "开始下载frpc二进制文件..."
 	/usr/bin/wget --no-check-certificate --timeout=10 --tries=1 -o $LOGFILE https://github.com/fatedier/frp/releases/download/v${latest_version}/frp_${latest_version}_linux_${s_arch}.tar.gz -O /tmp/frp_${latest_version}_linux_${s_arch}.tar.gz
-	[ -f "/tmp/frp_${latest_version_linux_arm.tar.gz" ] && tar -xf /tmp/frp_${latest_version}_linux_${s_arch}.tar.gz -C /tmp && \
-		mv /tmp/frp_${latest_version}_linux_${s_arch}/frpc /usr/bin/frpc
+	[ -f "/tmp/frp_${latest_version}_linux_${s_arch}.tar.gz" ] && tar -xf /tmp/frp_${latest_version}_linux_${s_arch}.tar.gz -C /tmp && mv /tmp/frp_${latest_version}_linux_${s_arch}/frpc /usr/bin/frpc
 	rm -rf /tmp/frp_${latest_version}_linux_${s_arch}*
 	if [ -f "/usr/bin/frpc" ]; then
 		chmod +x /usr/bin/frpc && echo_date "成功下载frpc二进制文件"
