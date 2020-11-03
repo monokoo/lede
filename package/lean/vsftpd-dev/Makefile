@@ -9,12 +9,13 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vsftpd-dev
 PKG_VERSION:=3.0.3
-PKG_RELEASE:=2
+PKG_RELEASE:=4
 
 PKG_SOURCE:=vsftpd-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://security.appspot.com/downloads/
 PKG_HASH:=9d4d2bf6e6e2884852ba4e69e157a2cecd68c5a7635d66a3a8cf8d898c955ef7
 PKG_LICENSE:=GPLv2
+PKG_CPE_ID:=cpe:/a:beasts:vsftpd
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/vsftpd-$(PKG_VERSION)
 
@@ -60,6 +61,8 @@ Package/vsftpd-dev-tls/conffiles=$(Package/vsftpd-dev/conffiles)
 
 ifneq ($(CONFIG_USE_MUSL),)
   NLSSTRING:=-lcrypt
+else ifneq ($(CONFIG_USE_GLIBC),)
+  NLSSTRING:=-lcrypt
 else
   NLSSTRING:=-lcrypt -lnsl
 endif
@@ -93,13 +96,12 @@ endif
 define Package/vsftpd-dev/install/default
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vsftpd $(1)/usr/sbin/
-	$(INSTALL_DIR) $(1)/etc
-	$(INSTALL_DIR) $(1)/etc/init.d
 endef
 
 ifeq ($(CONFIG_VSFTPD_USE_UCI_SCRIPTS),y)
 define Package/vsftpd-dev/install
 $(call Package/vsftpd-dev/install/default, $(1))
+	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/vsftpd-uci.init $(1)/etc/init.d/vsftpd
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/vsftpd.uci $(1)/etc/config/vsftpd
@@ -109,6 +111,7 @@ endef
 else
 define Package/vsftpd-dev/install
 $(call Package/vsftpd-dev/install/default, $(1))
+	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_CONF) ./files/vsftpd.conf $(1)/etc/vsftpd.conf
 	$(INSTALL_BIN) ./files/vsftpd.init $(1)/etc/init.d/vsftpd
 endef
