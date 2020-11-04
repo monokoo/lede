@@ -1,0 +1,11 @@
+{
+    "luci-app-samba4": {
+        "description": "Luci interface for the samba4 server app",
+        "read": {
+            "uci": [ "samba4" ]
+        },
+        "write": {
+            "uci": [ "samba4" ]
+        }
+    }
+}
