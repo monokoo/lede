@@ -1,0 +1,11 @@
+{
+    "luci-app-accesscontrol": {
+        "description": "Luci interface for the accesscontrol",
+        "read": {
+            "uci": [ "mia" ]
+        },
+        "write": {
+            "uci": [ "mia" ]
+        }
+    }
+}

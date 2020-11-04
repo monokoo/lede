@@ -1,0 +1,11 @@
+{
+    "luci-app-dnsforwarder": {
+        "description": "Luci interface for the dnsforwarder",
+        "read": {
+            "uci": [ "dnsforwarder" ]
+        },
+        "write": {
+            "uci": [ "dnsforwarder" ]
+        }
+    }
+}
