@@ -1,0 +1,11 @@
+{
+    "luci-app-timewol": {
+        "description": "Luci interface for the timewol",
+        "read": {
+            "uci": [ "timewol" ]
+        },
+        "write": {
+            "uci": [ "timewol" ]
+        }
+    }
+}

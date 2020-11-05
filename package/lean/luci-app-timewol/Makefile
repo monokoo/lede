@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-timewol
-PKG_VERSION:=20170519
+PKG_VERSION:=20201105
 PKG_RELEASE:=1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
@@ -65,6 +65,8 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi
 	$(INSTALL_DATA) ./files/usr/lib/lua/luci/model/cbi/*.lua $(1)/usr/lib/lua/luci/model/cbi/
 
+	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
+	$(INSTALL_DATA) ./files/usr/share/rpcd/acl.d/* $(1)/usr/share/rpcd/acl.d
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
