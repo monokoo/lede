@@ -1,0 +1,11 @@
+{
+    "luci-app-autoreboot": {
+        "description": "Luci interface for the autoreboot",
+        "read": {
+            "uci": [ "autoreboot" ]
+        },
+        "write": {
+            "uci": [ "autoreboot" ]
+        }
+    }
+}

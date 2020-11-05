@@ -1,0 +1,11 @@
+{
+    "luci-app-mwan3helper": {
+        "description": "Luci interface for the mwan3helper",
+        "read": {
+            "uci": [ "mwan3helper" ]
+        },
+        "write": {
+            "uci": [ "mwan3helper" ]
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "luci-app-advanced": {
+        "description": "Luci interface for the advanced",
+        "read": {
+            "uci": [ "advanced" ]
+        },
+        "write": {
+            "uci": [ "advanced" ]
+        }
+    }
+}
