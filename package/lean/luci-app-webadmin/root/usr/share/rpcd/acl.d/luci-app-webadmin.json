@@ -1,0 +1,11 @@
+{
+    "luci-app-webadmin": {
+        "description": "Luci interface for the uhttpd",
+        "read": {
+            "uci": [ "uhttpd" ]
+        },
+        "write": {
+            "uci": [ "uhttpd" ]
+        }
+    }
+}
