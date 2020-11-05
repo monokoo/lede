@@ -1,0 +1,11 @@
+{
+    "luci-app-ttyd": {
+        "description": "Luci interface for the ttyd",
+        "read": {
+            "uci": [ "ttyd" ]
+        },
+        "write": {
+            "uci": [ "ttyd" ]
+        }
+    }
+}

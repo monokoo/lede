@@ -1,0 +1,11 @@
+{
+    "luci-app-vlmcsd": {
+        "description": "Luci interface for the vlmcsd",
+        "read": {
+            "uci": [ "vlmcsd" ]
+        },
+        "write": {
+            "uci": [ "vlmcsd" ]
+        }
+    }
+}

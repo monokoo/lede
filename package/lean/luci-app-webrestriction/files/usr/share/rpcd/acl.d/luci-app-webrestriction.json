@@ -1,0 +1,11 @@
+{
+    "luci-app-webrestriction": {
+        "description": "Luci interface for the webrestriction",
+        "read": {
+            "uci": [ "webrestriction" ]
+        },
+        "write": {
+            "uci": [ "webrestriction" ]
+        }
+    }
+}
