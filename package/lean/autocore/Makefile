@@ -37,6 +37,12 @@ define Package/autocore-x86/description
   A usb autoconfig hotplug script.
 endef
 
+define Package/autocore-x86/config
+config UPDATE_INDEX_WITH_SELFCONFIG
+	bool "Use the selfconfig index.htm to replace the default one"
+	default n
+endef
+
 define Build/Compile
 endef
 
@@ -52,8 +58,10 @@ endef
 define Package/autocore-x86/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/autocore
-	$(INSTALL_DIR) $(1)/etc
-	$(INSTALL_DATA) ./files/x86/index.htm $(1)/etc/index.htm
+	ifeq ($(UPDATE_INDEX_WITH_SELFCONFIG),y)
+		$(INSTALL_DIR) $(1)/etc
+		$(INSTALL_DATA) ./files/x86/index.htm $(1)/etc/index.htm
+	endif
 	$(INSTALL_DIR) $(1)/sbin
 	$(CP) ./files/x86/sbin/* $(1)/sbin
 endef
