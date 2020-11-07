@@ -1,0 +1,11 @@
+{
+    "luci-app-flowoffload": {
+        "description": "Luci interface for the flowoffload",
+        "read": {
+            "uci": [ "flowoffload" ]
+        },
+        "write": {
+            "uci": [ "flowoffload" ]
+        }
+    }
+}
