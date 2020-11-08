@@ -18,7 +18,7 @@ s:tab("dnsmasqconf",translate("配置dnsmasq"),translate("本页是配置/etc/dn
 
 conf=s:taboption("dnsmasqconf",Value,"dnsmasqconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
-conf.rows=30
+conf.rows=20
 conf.wrap="off"
 conf.cfgvalue=function(t,t)
 return e.readfile("/etc/dnsmasq.conf")or""
@@ -29,7 +29,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/dnsmasq.conf",t)
 if(luci.sys.call("cmp -s /tmp/dnsmasq.conf /etc/dnsmasq.conf")==1)then
 e.writefile("/etc/dnsmasq.conf",t)
-luci.sys.call("/etc/init.d/dnsmasq restart >/dev/null")
 end
 e.remove("/tmp/dnsmasq.conf")
 end
@@ -57,7 +56,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/network",t)
 if(luci.sys.call("cmp -s /tmp/network /etc/config/network")==1)then
 e.writefile("/etc/config/network",t)
-luci.sys.call("/etc/init.d/network restart >/dev/null")
 end
 e.remove("/tmp/network")
 end
@@ -86,7 +84,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/hosts.tmp",t)
 if(luci.sys.call("cmp -s /tmp/hosts.tmp /etc/hosts")==1)then
 e.writefile("/etc/hosts",t)
-luci.sys.call("/etc/init.d/dnsmasq restart >/dev/null")
 end
 e.remove("/tmp/hosts.tmp")
 end
@@ -116,7 +113,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/dhcp",t)
 if(luci.sys.call("cmp -s /tmp/dhcp /etc/config/dhcp")==1)then
 e.writefile("/etc/config/dhcp",t)
-luci.sys.call("/etc/init.d/network restart >/dev/null")
 end
 e.remove("/tmp/dhcp")
 end
@@ -144,7 +140,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/firewall",t)
 if(luci.sys.call("cmp -s /tmp/firewall /etc/config/firewall")==1)then
 e.writefile("/etc/config/firewall",t)
-luci.sys.call("/etc/init.d/firewall restart >/dev/null")
 end
 e.remove("/tmp/firewall")
 end
@@ -173,7 +168,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/smartdns",t)
 if(luci.sys.call("cmp -s /tmp/smartdns /etc/config/smartdns")==1)then
 e.writefile("/etc/config/smartdns",t)
-luci.sys.call("/etc/init.d/smartdns restart >/dev/null")
 end
 e.remove("/tmp/smartdns")
 end
@@ -203,7 +197,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/openclash",t)
 if(luci.sys.call("cmp -s /tmp/openclash /etc/config/openclash")==1)then
 e.writefile("/etc/config/openclash",t)
-luci.sys.call("/etc/init.d/openclash restart >/dev/null")
 end
 e.remove("/tmp/openclash")
 end
@@ -233,7 +226,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/AdGuardHome",t)
 if(luci.sys.call("cmp -s /tmp/AdGuardHome /etc/config/AdGuardHome")==1)then
 e.writefile("/etc/config/AdGuardHome",t)
-luci.sys.call("/etc/init.d/AdGuardHome restart >/dev/null")
 end
 e.remove("/tmp/AdGuardHome")
 end
@@ -262,7 +254,6 @@ t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/Config.conf",t)
 if(luci.sys.call("cmp -s /tmp/Config.conf /etc/pcap-dnsproxy/Config.conf")==1)then
 e.writefile("/etc/pcap-dnsproxy/Config.conf",t)
-luci.sys.call("/etc/init.d/pcap-dnsproxy restart >/dev/null")
 end
 e.remove("/tmp/Config.conf")
 end
