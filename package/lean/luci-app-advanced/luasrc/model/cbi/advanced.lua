@@ -92,12 +92,12 @@ end
 if nixio.fs.access("/etc/config/dhcp")then
 s:tab("dhcpconf",translate("配置DHCP"),translate("本页是配置/etc/config/DHCP的文档内容。编辑后点击重启按钮后生效"))
 
-	o=s:taboption("dhcpconf",Button,"_drestart")
-	o.inputtitle=translate("重启网络")
+	o=s:taboption("dhcpconf",Button,"_dhrestart")
+	o.inputtitle=translate("重启dnsmasq")
 	o.inputstyle="apply"
 	
 	function o.write(e,e)
-	luci.sys.call("/etc/init.d/network restart & >/dev/null")
+	luci.sys.call("/etc/init.d/dnsmasq restart & >/dev/null")
 	end
 
 conf=s:taboption("dhcpconf",Value,"dhcpconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -147,7 +147,7 @@ end
 end
 if nixio.fs.access("/etc/config/smartdns")then
 s:tab("smartdnsconf",translate("配置smartdns"),translate("本页是配置/etc/config/smartdns的文档内容。编辑后点击重启按钮后生效"))
-	o=s:taboption("smartdnsconf",Button,"_drestart")
+	o=s:taboption("smartdnsconf",Button,"_sdrestart")
 	o.inputtitle=translate("重启smartdns")
 	o.inputstyle="apply"
 	
@@ -175,7 +175,7 @@ end
 end
 if nixio.fs.access("/etc/config/openclash")then
 s:tab("openclashconf",translate("配置openclash"),translate("本页是配置/etc/config/openclash的文档内容。编辑后点击重启按钮后生效"))
-	o=s:taboption("openclashconf",Button,"_drestart")
+	o=s:taboption("openclashconf",Button,"_ocrestart")
 	o.inputtitle=translate("重启openclash")
 	o.inputstyle="apply"
 	
@@ -204,7 +204,7 @@ end
 end
 if nixio.fs.access("/etc/config/AdGuardHome")then
 s:tab("AdGuardHomeconf",translate("配置AdGuardHome"),translate("本页是配置/etc/config/AdGuardHome的文档内容。编辑后点击重启按钮后生效"))
-	o=s:taboption("AdGuardHomeconf",Button,"_drestart")
+	o=s:taboption("AdGuardHomeconf",Button,"_adrestart")
 	o.inputtitle=translate("重启AdGuardHome")
 	o.inputstyle="apply"
 	
@@ -233,7 +233,7 @@ end
 end
 if nixio.fs.access("/etc/pcap-dnsproxy/Config.conf")then
 s:tab("pcapconf",translate("配置pcap-dnsproxy"),translate("本页是配置/etc/pcap-dnsproxy/Config.conf的文档内容。编辑后点击重启按钮后生效"))
-	o=s:taboption("pcapconf",Button,"_drestart")
+	o=s:taboption("pcapconf",Button,"_pdrestart")
 	o.inputtitle=translate("重启pcap-dnsproxy")
 	o.inputstyle="apply"
 	
